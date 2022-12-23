@@ -26,6 +26,7 @@ votes = (ArrayList<Vote>) request.getAttribute("votes");
 				<td>나이</td>
 				<td>성별</td>
 				<td>후보번호</td>
+				<td>투표시간</td>
 				<td>유권자확인</td>
 			</tr>
 	          <%
@@ -33,11 +34,11 @@ votes = (ArrayList<Vote>) request.getAttribute("votes");
 				%>
 				<tr>
 					<td><%=v.getV_name()%></td>
-					<td><%=v.getV_jumin()%></td>
 					<td><%=v.getV_birth()%></td>
+					<td><%=v.getV_age()%></td>
 					<td><%=v.getV_sex()%></td>
 					<td><%=v.getM_no()%></td>
-					<td><%=v.getV_name()%></td>
+					<td><%=v.getV_time()%></td>
 					<td><%=v.getV_confirm()%></td>
 				</tr>
 				<%

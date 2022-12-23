@@ -84,8 +84,8 @@ public class Controller_Vote extends HttpServlet {
 			break;
 		case "/check":
 			site = dao.check(request, response); break;
-//		case "/rank":
-//			site = dao.rank(request, response); break;
+		case "/rank":
+			site = dao.rank(request, response); break;
 		case "/home":
 			site = "main.jsp"; break;	//"홈으로" 버튼 누르면 main.jsp로 페이지 이동
 		}

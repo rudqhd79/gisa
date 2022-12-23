@@ -95,7 +95,7 @@ public class DAO {
 	}
 	
 	public String check(HttpServletRequest request, HttpServletResponse response) {
-		ArrayList<Vote> votes = new ArrayList<>();
+		ArrayList<Vote> votes = new ArrayList<Vote>();
 		try {
 			conn = getConnection();
 			String sql = "SELECT V_NAME,";
@@ -104,16 +104,23 @@ public class DAO {
 			sql +=  " DECODE(SUBSTR(V_JUMIN, 7, 1), '1', '남자', '2', '여자', '3', '남자', '4', '여자', '5', '남자', '6', '여자') 성별,";
 			sql +=  " M_NO,SUBSTR(V_TIME, 1, 2)||':'||SUBSTR(V_TIME, 3, 2) 투표시간,";
 			sql +=  " DECODE(V_CONFIRM, 'N', '미확인', 'Y', '확인') 유권자확인";
-			sql +=  " FROM TBL_VOTE_202005";
+			sql +=  " FROM TBL_VOTE_202005 WHERE V_AREA = '제1투표장'";
 			
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
-			Vote vote = new Vote();
-			
-			if(rs.next()) {
-				vote.;
+			while(rs.next()) {
+				Vote vote = new Vote();
+				vote.setV_name(rs.getString(1));
+				vote.setV_birth(rs.getString(2));
+				vote.setV_age(rs.getString(3));
+				vote.setV_sex(rs.getString(4));
+				vote.setM_no(rs.getString(5));
+				vote.setV_time(rs.getString(6));
+				vote.setV_confirm(rs.getString(7));
+				votes.add(vote);
 			}
+			request.setAttribute("votes", votes);
 			
 			conn.close();
 			ps.close();
@@ -122,6 +129,38 @@ public class DAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "Check.jsp";
+	}
+	
+	public String rank(HttpServletRequest request, HttpServletResponse response) {
+		ArrayList<Vote> vote = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String sql = "SELECT A.M_NO, A.M_NAME, COUNT(B.M_NO)";
+			sql += " FROM TBL_MEMBER_202005 A JOIN TBL_VOTE_202005 B ON (A.M_NO = B.M_NO) AND B.V_CONFIRM = 'Y'";
+			sql += " group by A.M_NO, A.M_NAME ORDER BY COUNT(B.M_NO) DESC";
+			
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Vote vot = new Vote();
+				vot.setM_no(rs.getString(1));
+				vot.setV_name(rs.getString(2));
+				vot.setV_count(rs.getString(3));
+				
+				vote.add(vot);
+				
+			}
+			request.setAttribute("vote", vote);
+			conn.close();
+			ps.close();
+			rs.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "Rank.jsp";
 	}
 	
 	

@@ -7,9 +7,11 @@ public class Vote {
 	String v_time;
 	String v_area;
 	String v_confirm;
+	// 여기서만 쓰이는 변수
 	String v_age;
 	String v_birth;
 	String v_sex;
+	String v_count;
 
 	public String getV_jumin() {
 		return v_jumin;
@@ -17,6 +19,10 @@ public class Vote {
 
 	public void setV_jumin(String v_jumin) {
 		this.v_jumin = v_jumin;
+	}
+
+	public String getV_count() {
+		return v_count;
 	}
 
 	public String getV_name() {
@@ -81,6 +87,10 @@ public class Vote {
 
 	public void setV_sex(String v_sex) {
 		this.v_sex = v_sex;
+	}
+
+	public void setV_count(String v_count) {
+		this.v_count = v_count;
 	}
 
 }
